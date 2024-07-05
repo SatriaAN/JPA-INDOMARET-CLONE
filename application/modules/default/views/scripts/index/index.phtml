@@ -30,16 +30,17 @@
 
 <body>
     <main>
-        <h1 class="text-center m-4">Clone Upload</h1>
+        <h1 class="text-center m-4">Clone Transfer Dana</h1>
         <div class="container py-3">
+            <?= $this->resftr; ?>
             <form method="post" action=""" enctype='multipart/form-data'>
                 <section class=" d-flex align-items-center justify-content-center" ">
                 <div class=" card" style="width: 25rem">
                 <div class="card-header">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" name='transferDana'>
                         <option selected>INDOMARET / MT940</option>
                         <option value="INDOMARET">Indomaret</option>
-                        <option value="MT940">Mandiri MT940</option>
+                        <option value="MANDIRI_MT940">Mandiri MT940</option>
                     </select>
                 </div>
                 <div class="input-group custom-file-button my-3 card-header">
@@ -49,8 +50,14 @@
                 <div class="card-body form-actions">
                     <button type="submit" class="btn btn-large btn-info" name="proses" value="importDoc">Import
                         Document</button>
-                    <button type="submit" class="btn btn-large btn-danger" name="proses" value="generateDoc"
-                        value="generate">Generate Document</button>
+                    <button type="submit" class="btn btn-large btn-danger" name="proses" value="generateDoc">Generate
+                        Document</button>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-large btn-info" name="proses" value="importLocal"
+                        value="importLocal">Generate Local</button>
                 </div>
                 </section>
             </form>

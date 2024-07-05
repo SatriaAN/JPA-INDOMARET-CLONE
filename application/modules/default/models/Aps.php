@@ -35,7 +35,7 @@
 			   if ($counter++ == 0) continue; //skip row
 			   // if ($isifilex === NULL) continue; //skip row
 			   if (empty($isifilex)) continue; //skip row
-			   $exp = explode(";", $isifilex);
+			   $exp = explode("|", $isifilex);
 	  
 			   $vTGL_TRANSAKSI        = $exp[0];
 			   $vTERMINAL_ID          = $exp[1];
@@ -47,7 +47,7 @@
 			   $vADMIN_BANK           = $exp[7];
 			   $vTRX                  = $exp[8];
 			   $vTRANSACTION_NUMBER   = $exp[9];
-	  
+				
 			   try {
 				  self::UploadFTR(
 					 $vTGL_TRANSAKSI,
@@ -83,14 +83,16 @@
 		 ) {
 			$db = self::InitDbRekon();
 	  
-			$sql = "INSERT INTO db_rekon_tf_dana.template_ftr_IDM 
-			   (vTGL_TRANSAKSI, vTERMINAL_ID, vNAMA_PP, vID_TRX, vREFF_ID, vTRACE_NUMBER, vTRAN_AMOUNT, vADMIN_BANK, vTRX,
+			$sql = "INSERT INTO db_dummy.clone_template_ftr_idm 
+			   (
+				vTGL_TRANSAKSI
+				, vTERMINAL_ID, vNAMA_PP, vID_TRX, vREFF_ID, vTRACE_NUMBER, vTRAN_AMOUNT, vADMIN_BANK, vTRX,
 			   vTRANSACTION_NUMBER)
 			   VALUES
 			   ('" . $vTGL_TRANSAKSI . "','" . $vTERMINAL_ID . "','" . $vNAMA_PP . "','" . $vID_TRX . "','" . $vREFF_ID . "','" . $vTRACE_NUMBER . "','" . $vTRAN_AMOUNT . "','" . $vADMIN_BANK . "',
 			   '" . $vTRX . "','" . $vTRANSACTION_NUMBER . "')";
 	  
-			return $db->query($sql);
+			return $db->fetchAll($sql);
 		 }
 
 		 public static function STATUS($code, $alert)
@@ -159,12 +161,20 @@
             return $x;
         }
 
-		public static function logrekon($kdlynftr,$user,$keterangan,$message)
-        {
-            $db = Default_Model_Aps::InitDbRekon();
-            $sql = "call db_rekon_pln.SP_kegiatanrekon('".$kdlynftr."', '".$user."', '".$keterangan."', '".$message."')";
+		// public static function logrekon($kdlynftr,$user,$keterangan,$message)
+        // {
+        //     $db = Default_Model_Aps::InitDbRekon();
+        //     $sql = "call db_rekon_pln.SP_kegiatanrekon('".$kdlynftr."', '".$user."', '".$keterangan."', '".$message."')";
 
-            $db->query($sql);
-        }
+        //     $db->query($sql);
+        // }
+
+		public static function VIEWALLTGLTRXREKON($kodebiller)
+		{
+			$db = self::InitDbRekon();
+			$sql = "SELECT MIN(TGL_TRANSAKSI) tgl1, MAX(TGL_TRANSAKSI) tgl2, MAX(TGL_PROSES_REKON) tglrekon FROM db_rekon_multi.log_proses_rekon where BILLER = '" . $kodebiller . "'";
+
+			return $db->fetchAll($sql);
+		}
 
 	}
