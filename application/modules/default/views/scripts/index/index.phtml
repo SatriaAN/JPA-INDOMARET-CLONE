@@ -33,8 +33,8 @@
         <h1 class="text-center m-4">Clone Transfer Dana</h1>
         <div class="container py-3">
             <?= $this->resftr; ?>
-            <form method="post" action=""" enctype='multipart/form-data'>
-                <section class=" d-flex align-items-center justify-content-center" ">
+            <section class=" d-flex align-items-center justify-content-center" ">
+            <form method=" POST" action=""" enctype='multipart/form-data'>
                 <div class=" card" style="width: 25rem">
                 <div class="card-header">
                     <select class="form-select" aria-label="Default select example" name='transferDana'>
@@ -47,21 +47,29 @@
                     <label class="input-group-text" for="inputGroupFile">Upload file disini</label>
                     <input type="file" class="form-control" id="inputGroupFile" name='ftrFile'>
                 </div>
-                <div class="card-body form-actions">
-                    <button type="submit" class="btn btn-large btn-info" name="proses" value="importDoc">Import
-                        Document</button>
-                    <button type="submit" class="btn btn-large btn-danger" name="proses" value="generateDoc">Generate
-                        Document</button>
+                <div class="card-body form-actions mx-auto">
+                    <button type="submit" class="btn btn-large btn-info" name="proses" value="importDoc">
+                        Import Document
+                    </button>
+                    <button type="submit" class="btn btn-large btn-danger" name="proses" value="generateDoc">
+                        Generate Document
+                    </button>
                     <br>
-                    <br>
-                    <br>
-                    <br>
-                    <button type="submit" class="btn btn-large btn-info" name="proses" value="importLocal"
-                        value="importLocal">Generate Local</button>
+                    <button class="btn btn-large btn-outline-primary mt-4" style="padding: 6px 34px 6px 34px;">
+                        Rekonsiliasi
+                    </button>
+                    <button class="btn btn-large btn-outline-warning mt-4" style="padding: 6px 58px 6px 58px;">
+                        Pantau
+                    </button>
                 </div>
-                </section>
-            </form>
         </div>
+
+
+        </form>
+        </section>
+        <section>
+
+        </section>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
