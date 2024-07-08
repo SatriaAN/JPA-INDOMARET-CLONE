@@ -19,12 +19,11 @@ class Default_IndexController extends Zend_Controller_Action
             $upload = new Zend_File_Transfer_Adapter_Http();
             $upload->setDestination(
                $dirfile
-            )
-               ->addValidator(
+            )->addValidator(
                   'Extension',
                   false,
                   'txt,TXT,csv,CSV'
-               )->addValidator(
+            )->addValidator(
                   'Size',
                   false,
                   array(
@@ -40,7 +39,7 @@ class Default_IndexController extends Zend_Controller_Action
                    $upload->receive();
  
                    chmod(
-                      $dirfile . $_FILES['fileftrkis']['name'],
+                      $dirfile . $_FILES['ftrFile']['name'],
                       0777
                    );
 
@@ -90,91 +89,95 @@ class Default_IndexController extends Zend_Controller_Action
          } else {
             $this->view->resTransferDana = "Pilih Menu Indomaret /  Mandiri_MT940 Terlebih Dahulu";
          }
-      } elseif ($request->getPost('proses') == 'importLocal'){
+      } 
+    }
+      // elseif ($request->getPost('proses') == 'importLocal'){
 
-         $dirfile    = 'emoneys/';
+      //    $dirfile    = 'emoneys/';
 
-            $upload = new Zend_File_Transfer_Adapter_Http();
-            $upload->setDestination(
-               $dirfile
-            )
-               ->addValidator(
-                  'Extension',
-                  false,
-                  'txt,TXT,csv,CSV'
-               )->addValidator(
-                  'Size',
-                  false,
-                  array(
-                     'min' => '1b',
-                     'max' => '5MB',
-                     'bytestring' => false
-                  )
-               );
+      //       $upload = new Zend_File_Transfer_Adapter_Http();
+      //       $upload->setDestination(
+      //          $dirfile
+      //       )
+      //          ->addValidator(
+      //             'Extension',
+      //             false,
+      //             'txt,TXT,csv,CSV'
+      //          )->addValidator(
+      //             'Size',
+      //             false,
+      //             array(
+      //                'min' => '1b',
+      //                'max' => '5MB',
+      //                'bytestring' => false
+      //             )
+      //          );
 
-            if (!$upload->isValid()) {
-               $this->view->resftr = Multibiller_Model_Aps::STATUS('02', 'Ekstensi file support txt / csv, max file size 5MB');
-            } else {
-               $upload->receive();
+      //       if (!$upload->isValid()) {
+      //          $this->view->resftr = Multibiller_Model_Aps::STATUS('02', 'Ekstensi file support txt / csv, max file size 5MB');
+      //       } 
+      // else {
+      //          $upload->receive();
 
-               chmod($dirfile . $_FILES['fileftrkis']['name'], 0777);
-               $nm_file           = $_FILES['fileftrkis']['name'];
-               $nm_file_output    = "MT940_TRANSFER_DANA_" . $nm_file;
+      //          chmod($dirfile . $_FILES['fileftrkis']['name'], 0777);
+      //          $nm_file           = $_FILES['fileftrkis']['name'];
+      //          $nm_file_output    = "MT940_TRANSFER_DANA_" . $nm_file;
 
-               $status = Indomaret_Model_Aps::konvertMt940TfDanaIndomaret($nm_file, $dirfile . $nm_file, $dirfile . $nm_file_output, $kode_biller);
-               $status = Default_Model_Aps::konvertMt940TfDanaIndomaret($nm_file, $dirfile . $nm_file, $dirfile . $nm_file_output, $kode_biller);
+      //          // $status = Indomaret_Model_Aps::konvertMt940TfDanaIndomaret($nm_file, $dirfile . $nm_file, $dirfile . $nm_file_output, $kode_biller);
+      //          $status = Default_Model_Aps::konvertMt940TfDanaIndomaret($nm_file, $dirfile . $nm_file, $dirfile . $nm_file_output, $kode_biller);
 
-               $this->view->resftr = Pln_Model_Aps::SUKSESTAG("INSERT TABLE FTR SELESAI " . $nm_file_output);
+      //          $this->view->resftr = Pln_Model_Aps::SUKSESTAG("INSERT TABLE FTR SELESAI " . $nm_file_output);
 
-               // if ($status == "done") {
-               //    chmod($dirfile . $nm_file_output, 0777);
-
-
-               //    //     //INSERT KE TABLE
-               //    $ftp_conn      = ssh2_connect($this->ftp_server, 22) or die("Could not connect to SFTP " . $this->ftp_server);
-               //    $login         = ssh2_auth_password($ftp_conn, $this->usernameftp, $this->passwordftp);
-               //    $sftp          = ssh2_sftp($ftp_conn);
-               //    $remote_dir    = "/usr/production/REKON/proses/tampungan_file_webrekon/";
+      //          // if ($status == "done") {
+      //          //    chmod($dirfile . $nm_file_output, 0777);
 
 
-               //    if (ssh2_scp_send($ftp_conn, $dirfile . $nm_file_output, $remote_dir . $nm_file_output, 0644)) {
-               //       try {
-               //          // Multibiller_Model_Aps::TRUNCATEX('FTR_VA_MT940');
+      //          //    //     //INSERT KE TABLE
+      //          //    $ftp_conn      = ssh2_connect($this->ftp_server, 22) or die("Could not connect to SFTP " . $this->ftp_server);
+      //          //    $login         = ssh2_auth_password($ftp_conn, $this->usernameftp, $this->passwordftp);
+      //          //    $sftp          = ssh2_sftp($ftp_conn);
+      //          //    $remote_dir    = "/usr/production/REKON/proses/tampungan_file_webrekon/";
 
-                        Indomaret_Model_Aps::loadFtrIndomaret($remote_dir . $nm_file_output);
 
-               //          $rc = "00";
-               //       } catch (Exception $e) {
-               //          /*** LOG REKON ***/
-               //          Pln_Model_Aps::logrekon(
-               //             'TRANSFER DANA',
-               //             $_SESSION['usernameitops'],
-               //             "INSERT TABLE FTR " . $nm_file_output,
-               //             'GAGAL'
-               //          );
+      //          //    if (ssh2_scp_send($ftp_conn, $dirfile . $nm_file_output, $remote_dir . $nm_file_output, 0644)) {
+      //          //       try {
+      //          //          // Multibiller_Model_Aps::TRUNCATEX('FTR_VA_MT940');
 
-               //          $this->view->resftr = Pln_Model_Aps::ERRORTAG("INSERT TABLE FTR GAGAL, HUBUNGI ADMIN : " . $nm_file_output . $e->getCode() . $e->getMessage());
-               //       }
+      //                   // Indomaret_Model_Aps::loadFtrIndomaret($remote_dir . $nm_file_output);
 
-               //       if ($rc == "00") {
-               //          /*** LOG REKON ***/
-               //          Pln_Model_Aps::logrekon(
-               //             'TRANSFER DANA',
-               //             $_SESSION['usernameitops'],
-               //             "INSERT TABLE FTR " . $nm_file_output,
-               //             'SUKSES'
-               //          );
 
-               //          $this->view->resftr = Pln_Model_Aps::SUKSESTAG("INSERT TABLE FTR SELESAI " . $nm_file_output);
-               //       }
-               //    } else {
-               //       /*** LOG REKON kirim ftp***/
-               //       Pln_Model_Aps::logrekon('TRANSFER DANA', $_SESSION['usernameitops'], $nm_file_output, 'GAGAL KIRIM FTP TAMPUNGAN');
+      //          //          $rc = "00";
+      //          //       } catch (Exception $e) {
+      //          //          /*** LOG REKON ***/
+      //          //          Pln_Model_Aps::logrekon(
+      //          //             'TRANSFER DANA',
+      //          //             $_SESSION['usernameitops'],
+      //          //             "INSERT TABLE FTR " . $nm_file_output,
+      //          //             'GAGAL'
+      //          //          );
 
-               //       $this->view->resftr = Pln_Model_Aps::ERRORTAG($nm_file_output . " GAGAL KIRIM FTP TAMPUNGAN, HUBUNGI ADMIN : ");
-               //    }
-               // }
-            }
-         }
-      }
+      //          //          $this->view->resftr = Pln_Model_Aps::ERRORTAG("INSERT TABLE FTR GAGAL, HUBUNGI ADMIN : " . $nm_file_output . $e->getCode() . $e->getMessage());
+      //          //       }
+
+      //          //       if ($rc == "00") {
+      //          //          /*** LOG REKON ***/
+      //          //          Pln_Model_Aps::logrekon(
+      //          //             'TRANSFER DANA',
+      //          //             $_SESSION['usernameitops'],
+      //          //             "INSERT TABLE FTR " . $nm_file_output,
+      //          //             'SUKSES'
+      //          //          );
+
+      //          //          $this->view->resftr = Pln_Model_Aps::SUKSESTAG("INSERT TABLE FTR SELESAI " . $nm_file_output);
+      //          //       }
+      //          //    } else {
+      //          //       /*** LOG REKON kirim ftp***/
+      //          //       Pln_Model_Aps::logrekon('TRANSFER DANA', $_SESSION['usernameitops'], $nm_file_output, 'GAGAL KIRIM FTP TAMPUNGAN');
+
+      //          //       $this->view->resftr = Pln_Model_Aps::ERRORTAG($nm_file_output . " GAGAL KIRIM FTP TAMPUNGAN, HUBUNGI ADMIN : ");
+      //          //    }
+      //          // }
+      //       }
+      //    }
+      // }
 }
