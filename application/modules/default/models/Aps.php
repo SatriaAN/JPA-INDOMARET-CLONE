@@ -177,4 +177,17 @@
 			return $db->fetchAll($sql);
 		}
 
+		public static function GENERATEDOC() {
+			$db = self::InitDbRekon();
+			$sql = "SELECT * FROM db_dummy.clone_template_ftr_idm";
+
+			return $db->fetchAll($sql);
+		}
+
+		public static function DELETE_RECORD($id) {
+			$db = self::InitDbRekon();
+			$sql = "DELETE FROM db_dummy.clone_template_ftr_idm WHERE id = ?";
+		
+			$db->query($sql, $id);
+		}
 	}

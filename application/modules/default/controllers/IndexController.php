@@ -59,37 +59,47 @@ class Default_IndexController extends Zend_Controller_Action
             $tglprosesx[]      = $tgl['tglrekon'];
          }
 
-         if ($biller == 'MANDIRI_MT940') {
-            try {
-               Default_Model_Aps::GenerateTransferDana('MANDIRI', $tglprosesx[0]);
+         $this->view->dataIndomaret = Default_Model_Aps::GENERATEDOC();
 
-               $this->view->resTransferDana = Default_Model_Aps::SUKSESTAG($keterangan);
-            } catch (Exception $e) {
-               $message = $e->getMessage();
-               $code = $e->getCode();
-               $keterangan = "GAGAL MELAKUKAN GENERATE TRANSFER DANA";
+         // if ($biller == 'MANDIRI_MT940') {
+         //    try {
+         //       Default_Model_Aps::GenerateTransferDana('MANDIRI', $tglprosesx[0]);
 
-               $this->view->resftr = Default_Model_Aps::ERRORTAG($keterangan . ":" . $message . $code);
-            }
-         } elseif ($biller == 'INDOMARET') {
-            try {
-               Default_Model_Aps::GenerateTransferDana('INDOMARET', $tglprosesx[0]);
+         //       $this->view->resTransferDana = Default_Model_Aps::SUKSESTAG($keterangan);
+         //    } catch (Exception $e) {
+         //       $message = $e->getMessage();
+         //       $code = $e->getCode();
+         //       $keterangan = "GAGAL MELAKUKAN GENERATE TRANSFER DANA";
 
-               /*** LOG REKON ***/
-               Default_Model_Aps::logrekon('FTR TRANSFER DANA ', $_SESSION['usernameitops'], $keterangan, 'Selesai');
-               $this->view->resftr = Default_Model_Aps::SUKSESTAG($keterangan);
+         //       $this->view->resftr = Default_Model_Aps::ERRORTAG($keterangan . ":" . $message . $code);
+         //    }
+         // } elseif ($biller == 'INDOMARET') {
+         //    try {
+         //       Default_Model_Aps::GenerateTransferDana('INDOMARET', $tglprosesx[0]);
+
+         //       /*** LOG REKON ***/
+         //       Default_Model_Aps::logrekon('FTR TRANSFER DANA ', $_SESSION['usernameitops'], $keterangan, 'Selesai');
+         //       $this->view->resftr = Default_Model_Aps::SUKSESTAG($keterangan);
                
-            } catch (Exception $e) {
-               $message = $e->getMessage();
-               $code = $e->getCode();
-               $keterangan = "GAGAL MELAKUKAN GENERATE TRANSFER DANA";
+         //    } catch (Exception $e) {
+         //       $message = $e->getMessage();
+         //       $code = $e->getCode();
+         //       $keterangan = "GAGAL MELAKUKAN GENERATE TRANSFER DANA";
 
-               $this->view->resftr = Default_Model_Aps::ERRORTAG($keterangan . ":" . $message . $code);
-            }
-         } else {
-            $this->view->resTransferDana = "Pilih Menu Indomaret /  Mandiri_MT940 Terlebih Dahulu";
+         //       $this->view->resftr = Default_Model_Aps::ERRORTAG($keterangan . ":" . $message . $code);
+         //    }
+         // } else {
+         //    $this->view->resTransferDana = "Pilih Menu Indomaret /  Mandiri_MT940 Terlebih Dahulu";
+         // }
+      } elseif ($request->getPost('proses') == 'delete') {
+         $idsToDelete = $request->getPost('delete');
+         if (!empty($idsToDelete)) {
+             foreach ($idsToDelete as $id) {
+                 Default_Model_Aps::DELETE_RECORD($id);
+             }
+             $this->_redirect('/index');
          }
-      } 
+      }
     }
       // elseif ($request->getPost('proses') == 'importLocal'){
 
